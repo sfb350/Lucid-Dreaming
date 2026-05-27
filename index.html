@@ -3,221 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cognitive Evolution: A Phased Roadmap to REM Lucidity</title>
+    <title>Somatic Induction Protocol | FILD Masterclass</title>
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
-            --primary-color: #3182ce;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --accent-bg: #ebf8ff;
-            --accent-text: #2b6cb0;
+            --bg-dark: #09090b;
+            --bg-panel: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --accent: #14b8a6;
+            --danger: #ef4444;
+            --border: #27272a;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
 
         header {
-            background-color: #1a202c;
-            color: #ffffff;
-            padding: 4rem 2rem;
+            background-color: var(--bg-panel);
+            padding: 2rem 1rem;
             text-align: center;
+            border-bottom: 1px solid var(--border);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            letter-spacing: -0.5px;
+        header h1 { margin: 0; font-size: 2rem; letter-spacing: 2px; color: var(--primary); text-transform: uppercase;}
+        header p { margin: 0.5rem 0 0 0; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
         }
 
-        header p {
-            color: #a0aec0;
-            font-size: 1.2rem;
-            margin-top: 1rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
+        .tab-btn:hover { color: var(--text-main); }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-        .intro {
-            font-size: 1.15rem;
-            color: #4a5568;
-            margin-bottom: 3rem;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 1rem;
-        }
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in; }
+        .tab-content.active { display: block; }
 
-        h2 {
-            color: #2c5282;
-            font-size: 1.75rem;
-            margin-top: 3rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .phase-meta {
-            font-weight: bold;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { color: var(--accent); margin-top: 1.5rem; }
+        
+        .alert-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            border-radius: 0 4px 4px 0;
             margin-top: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        ul {
-            padding-left: 1.2rem;
-        }
+        .alert-box h4 { margin: 0 0 0.5rem 0; color: var(--danger); text-transform: uppercase; font-size: 0.85rem;}
+        .alert-box p { margin: 0; font-size: 0.95rem; }
 
-        li {
-            margin-bottom: 0.75rem;
-        }
-
-        table {
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
             width: 100%;
-            border-collapse: collapse;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--primary-hover); }
+
+        /* FILD Metronome */
+        .metronome-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
             margin: 3rem 0;
-            font-size: 0.95rem;
+        }
+        .finger-indicator {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: var(--text-muted);
+            transition: all 0.1s;
+        }
+        .finger-indicator.active {
+            background: var(--accent);
+            color: var(--bg-dark);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
         }
 
-        th {
-            background-color: #2d3748;
-            color: #ffffff;
-            text-align: left;
-            padding: 0.75rem 1rem;
-        }
-
-        td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        tr:nth-child(even) td {
-            background-color: #f1f5f9;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: #718096;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 5rem;
-        }
+        .curriculum-module { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+        .curriculum-module:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        ul { padding-left: 1.5rem; color: var(--text-muted); }
+        li { margin-bottom: 0.75rem; }
+        strong { color: var(--text-main); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>THE COGNITIVE EVOLUTION</h1>
-        <p>A Phased, Evidence-Based Roadmap to Reliable REM Sleep Lucidity</p>
+        <h1>Somatic Induction Protocol</h1>
+        <p>Advanced FILD to WILD Integration System</p>
     </header>
 
-    <div class="container">
-        <p class="intro">
-            This system transforms lucid dreaming from a random occurrence into a predictable, structured habit. By separating your progression into logical milestones, you systematically build the waking metacognition and biological timing required to stabilize the hybrid state.
-        </p>
-
-        <div class="phase-meta">Phase 1: Weeks 1–3</div>
-        <h1>Metacognitive Tuning</h1>
-        <p><strong>Objective:</strong> Deconstruct daytime automatic behavior to force your brain's self-reflective networks to run naturally in the background.</p>
-        
-        <div class="card">
-            <h3>The Context Audit Protocol</h3>
-            <p>Select 4 distinct daytime triggers (e.g., walking through a doorway, checking your phone, or drinking water). When triggered, immediately perform two actions:</p>
-            <ul>
-                <li><strong>The Causal Trace:</strong> Mentally trace your steps backward through the last 30 minutes. Verify the exact sequence of events that brought you to your current location. If your memory is fragmented (as it always is in a dream), treat this as an immediate red flag.</li>
-                <li><strong>The Stability Test:</strong> Focus on a digital clock or a line of text, look away for 3 seconds, and look back. Verify that the properties remain completely static and coherent.</li>
-            </ul>
-            <p><em>Gateway to Phase 2: Complete these deep audits every day for two consecutive weeks without relying on digital reminders.</em></p>
-        </div>
-
-        <div class="phase-meta">Phase 2: Weeks 4–6</div>
-        <h1>Chronobiological Access</h1>
-        <p><strong>Objective:</strong> Match your trained waking awareness with your brain's natural peak dreaming windows.</p>
-        
-        <div class="card">
-            <h3>The Wake-Back-To-Bed (WBTB) Method</h3>
-            <p>To prevent sleep fragmentation, execute this protocol exclusively on weekends or alternating nights:</p>
-            <ul>
-                <li><strong>The Intercept:</strong> Set an acoustic alert to wake yourself exactly 5 hours after sleep onset, clearing your primary deep NREM cycles.</li>
-                <li><strong>The Intermission:</strong> Exit the bed for 10 to 15 minutes under dim lighting. Read over your dream logs or review state-awareness material.</li>
-                <li><strong>The Re-Entry:</strong> Return to bed. As you drift off, focus your mind entirely on a single prospective intent: <em>"Next time I am dreaming, I will recognize my state."</em></li>
-            </ul>
-            <p><em>Gateway to Phase 3: Move forward once you begin experiencing logical "clashes" inside your dreams that trigger brief, spontaneous flashes of awareness.</em></p>
-        </div>
-
-        <div class="phase-meta">Phase 3: Weeks 7+</div>
-        <h1>Attentional Reinforcement</h1>
-        <p><strong>Objective:</strong> Maintain high-frequency coupling events and prevent emotional arousal from instantly ending the dream state.</p>
-        
-        <div class="card">
-            <h3>Sensory Anchoring</h3>
-            <p>The exact millisecond you achieve state-awareness inside a dream, your autonomic arousal spikes, threatening to wake you up. You must override this immediately:</p>
-            <ul>
-                <li><strong>Freeze:</strong> Disregard all immediate narrative goals. Do not attempt to fly, explore, or alter objects.</li>
-                <li><strong>Tactile Focus:</strong> Rub your dream hands together vigorously to generate simulated friction and warmth.</li>
-                <li><strong>Grounding:</strong> Drop your focus to the nearest surface (e.g., a wall or the floor) and examine its minute details to flood your attention framework with dream data, suppressing the physical waking response.</li>
-            </ul>
-        </div>
-
-        <h2>The Progression Matrix</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Phase</th>
-                    <th>Target Layer</th>
-                    <th>Daily Commitment</th>
-                    <th>Expected Shift</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Phase 1</strong></td>
-                    <td>Waking Habits</td>
-                    <td>4 Audits daily (~2 mins)</td>
-                    <td>Transition from autopilot to active situational awareness.</td>
-                </tr>
-                <tr>
-                    <td><strong>Phase 2</strong></td>
-                    <td>Sleep Timing</td>
-                    <td>WBTB on alternating nights</td>
-                    <td>Lowered cognitive threshold during peak morning REM cycles.</td>
-                </tr>
-                <tr>
-                    <td><strong>Phase 3</strong></td>
-                    <td>Dream Stability</td>
-                    <td>Sensory anchoring upon lucidity</td>
-                    <td>Suppression of the waking reflex for prolonged experiences.</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">Daily Tracker</button>
+        <button class="tab-btn" onclick="switchTab('curriculum')">The Curriculum</button>
+        <button class="tab-btn" onclick="switchTab('tools')">FILD Calibrator</button>
     </div>
 
-    <footer>
-        <p>The Hybrid State Continuum • Open Source Neurological Blueprint</p>
-    </footer>
+    <div class="container">
+        
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <h2 style="border: none; margin: 0; padding: 0;">Day <span id="uiDay">1</span> / 30</h2>
+                    <span style="color: var(--accent); font-weight: bold;" id="uiPhase">Phase 1: The Somatic Lock</span>
+                </div>
+                
+                <p id="dailyObjective" style="color: var(--text-muted); font-size: 1.1rem;"></p>
+                
+                <h3>Daily Directives</h3>
+                <div id="checklist"></div>
 
+                <div class="alert-box">
+                    <h4>⚠️ In-Dream Emergency Anchor</h4>
+                    <p id="inDreamText">Loading protocol...</p>
+                </div>
+
+                <button class="btn" onclick="advanceDay()">Execute Directives & Advance Day</button>
+            </div>
+        </div>
+
+        <div id="curriculum" class="tab-content">
+            <div class="card">
+                <div class="curriculum-module">
+                    <h2 style="color: var(--text-main);">Phase 1: The Somatic Lock (Days 1–7)</h2>
+                    <p><strong>Objective:</strong> Master the exact physical-to-mental threshold pressure of the finger anchor.</p>
+                    <ul>
+                        <li><strong>The Ghost Movement Calibration:</strong> Alternate moving your index and middle fingers, but reduce the movement until your fingers do not physically move at all.</li>
+                        <li><strong>The WBTB Back-Cut:</strong> Set your alarm for exactly 4.5 hours after sleep onset. Disable it immediately upon waking.</li>
+                        <li><strong>The 30-Second Drill:</strong> Immediately begin the ghost movements. Count cycles up to 20, then perform the nose-pinch reality check.</li>
+                    </ul>
+                </div>
+                
+                <div class="curriculum-module">
+                    <h2 style="color: var(--text-main);">Phase 2: Threshold Management (Days 8–14)</h2>
+                    <p><strong>Objective:</strong> Navigate the "Vibe Shift"—the exact moment your brain transitions from physical to dream input.</p>
+                    <ul>
+                        <li><strong>Sensory Deprivation Priming:</strong> Lay flat on your back for 2 minutes without moving before starting your finger anchors.</li>
+                        <li><strong>Mapping the Shift:</strong> Look for transitional markers like auditory static, rushing wind, or physical vibrations.</li>
+                        <li><strong>Passive Observation:</strong> Do not panic or react to hypnagogia. Treat it like a background movie to prevent cortisol spikes.</li>
+                    </ul>
+                </div>
+
+                <div class="curriculum-module">
+                    <h2 style="color: var(--text-main);">Phase 3: Visual Phasing (Days 15–21)</h2>
+                    <p><strong>Objective:</strong> Graduate from physical movements to visual, mental phasing.</p>
+                    <ul>
+                        <li><strong>The Synesthesia Shift:</strong> Start ghost movements for 15s. Stop physically, then visualize the movement perfectly behind your eyelids.</li>
+                        <li><strong>Environment Siphoning:</strong> Once the phantom movement is autonomous, force your mind to expect a specific scene to form around your moving hands.</li>
+                    </ul>
+                </div>
+
+                <div class="curriculum-module">
+                    <h2 style="color: var(--text-main);">Phase 4: High-Fidelity Architecting (Days 22–30)</h2>
+                    <p><strong>Objective:</strong> Unbroken conscious awareness from waking into a pre-designed environment.</p>
+                    <ul>
+                        <li><strong>Pre-Rendering the Matrix:</strong> Sketch or deeply visualize a detailed "spawn point" before bed.</li>
+                        <li><strong>The Vector Projection:</strong> Skip finger movements. Project consciousness directly into your spawn point during WBTB.</li>
+                        <li><strong>The Continuous Thread:</strong> Maintain internal counting to prevent slipping into standard narrative dreaming.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="tools" class="tab-content">
+            <div class="card" style="text-align: center;">
+                <h2>FILD Ghost Movement Calibrator</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto;">
+                    Use this visual metronome during the day to train your brain's rhythm. Rest your hand on a flat surface. 
+                    Match the visual pulse, continually reducing your physical muscle output until you are only <em>intending</em> to move the fingers without actual kinetic motion.
+                </p>
+                
+                <div class="metronome-container">
+                    <div class="finger-indicator" id="finger1">INDEX</div>
+                    <div class="finger-indicator" id="finger2">MIDDLE</div>
+                </div>
+
+                <button class="btn" id="metroBtn" onclick="toggleMetronome()" style="max-width: 200px;">Start Calibration</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // App State
+        let currentDay = parseInt(localStorage.getItem('fild_day')) || 1;
+        let metronomeInterval = null;
+        let isFinger1 = true;
+
+        const phases = [
+            {
+                max: 7, title: "Phase 1: The Somatic Lock",
+                obj: "Calibrate micro-kinesthetic anchors and optimize your 4.5-hour REM timing.",
+                tasks: [
+                    "Ghost Movement Calibration: Practiced minimizing physical output during the day.",
+                    "WBTB Back-Cut: Set alarm for exactly 4.5 hours post-sleep onset.",
+                    "30-Second Drill: Executed ghost movements upon WBTB waking, followed by nose-pinch test."
+                ],
+                anchor: "Assume your bedroom is a fake simulation. Always perform a nose-pinch check the moment you open your eyes after an induction attempt."
+            },
+            {
+                max: 14, title: "Phase 2: Threshold Management",
+                obj: "Navigate the 'Vibe Shift' and stabilize the transitional void.",
+                tasks: [
+                    "Sensory Deprivation: Lay perfectly still for 2 minutes during WBTB before tapping.",
+                    "Mapped the Shift: Passively observed hypnagogic auditory/somatic hallucinations without reacting emotionally."
+                ],
+                anchor: "If you transition into a dark 'Void', do not panic. Spin your dream body or shout 'Illuminate!' to force the brain to render a landscape."
+            },
+            {
+                max: 21, title: "Phase 3: Kinesthetic-to-Visual Phasing",
+                obj: "Translate tactile micro-movements into optical dream environments.",
+                tasks: [
+                    "Synesthesia Shift: Transitioned from physical ghost tapping to purely visual mental tapping after 15 seconds.",
+                    "Environment Siphoning: Expected a specific physical object/scene to form around the phantom hands."
+                ],
+                anchor: "The moment the environment materializes, grab an object immediately (a wall, dirt, a book). Maintain physical connection to ground the simulation."
+            },
+            {
+                max: 30, title: "Phase 4: High-Fidelity Architecting",
+                obj: "Maintain unbroken consciousness from waking to full world manipulation (WILD).",
+                tasks: [
+                    "Pre-Rendering: Memorized a highly detailed visual 'spawn point' before sleep.",
+                    "Vector Projection: Bypassed finger movements entirely; projected directly into the spawn point during WBTB.",
+                    "Continuous Thread: Maintained a counting internal monologue during the transition."
+                ],
+                anchor: "Once inside your pre-rendered spawn point, execute your macro-goals instantly. Your dream stability is at maximum fidelity."
+            }
+        ];
+
+        function getPhase(day) {
+            return phases.find(p => day <= p.max) || phases[3];
+        }
+
+        function renderDashboard() {
+            if (currentDay > 30) {
+                document.getElementById('uiDay').innerText = "DONE";
+                document.getElementById('uiPhase').innerText = "Curriculum Complete";
+                document.getElementById('dailyObjective').innerText = "You have mastered the somatic to visual induction pipeline. Maintain your practice.";
+                document.getElementById('checklist').innerHTML = "";
+                document.querySelector('.alert-box').style.display = 'none';
+                return;
+            }
+
+            const p = getPhase(currentDay);
+            document.getElementById('uiDay').innerText = currentDay;
+            document.getElementById('uiPhase').innerText = p.title;
+            document.getElementById('dailyObjective').innerText = p.obj;
+            document.getElementById('inDreamText').innerText = p.anchor;
+
+            const cl = document.getElementById('checklist');
+            cl.innerHTML = "";
+            p.tasks.forEach(task => {
+                cl.innerHTML += `
+                    <label style="display: flex; align-items: flex-start; margin-bottom: 1rem; cursor: pointer;">
+                        <input type="checkbox" class="task-cb" style="margin-top: 0.3rem; margin-right: 1rem;">
+                        <span style="color: var(--text-muted);">${task}</span>
+                    </label>
+                `;
+            });
+        }
+
+        function advanceDay() {
+            if (currentDay > 30) return;
+            const boxes = document.querySelectorAll('.task-cb');
+            const allChecked = Array.from(boxes).every(cb => cb.checked);
+            
+            if (!allChecked) {
+                alert("Protocol Incomplete: Check all daily directives to advance.");
+                return;
+            }
+
+            currentDay++;
+            localStorage.setItem('fild_day', currentDay);
+            renderDashboard();
+            window.scrollTo(0,0);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            // Auto stop metronome if leaving tools tab
+            if(tabId !== 'tools' && metronomeInterval) toggleMetronome();
+        }
+
+        function toggleMetronome() {
+            const btn = document.getElementById('metroBtn');
+            const f1 = document.getElementById('finger1');
+            const f2 = document.getElementById('finger2');
+
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+                metronomeInterval = null;
+                btn.innerText = "Start Calibration";
+                btn.style.background = "var(--primary)";
+                f1.classList.remove('active');
+                f2.classList.remove('active');
+            } else {
+                btn.innerText = "Stop";
+                btn.style.background = "var(--danger)";
+                metronomeInterval = setInterval(() => {
+                    if (isFinger1) {
+                        f1.classList.add('active');
+                        f2.classList.remove('active');
+                    } else {
+                        f2.classList.add('active');
+                        f1.classList.remove('active');
+                    }
+                    isFinger1 = !isFinger1;
+                }, 800); // 800ms rhythm
+            }
+        }
+
+        // Init
+        renderDashboard();
+    </script>
 </body>
 </html>
