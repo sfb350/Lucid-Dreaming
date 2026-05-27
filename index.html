@@ -218,6 +218,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('dashboard')">Daily Tracker</button>
             <button class="tab-btn" onclick="switchTab('curriculum')">The Curriculum</button>
+            <button class="tab-btn" onclick="switchTab('guidebook')">Protocol Guide</button>
             <button class="tab-btn" onclick="switchTab('tools')">FILD Calibrator</button>
         </div>
 
@@ -287,6 +288,50 @@
                 </div>
             </div>
 
+            <div id="guidebook" class="tab-content">
+                <div class="card">
+                    <div class="curriculum-module">
+                        <h2>1. How to Prepare for the Induction</h2>
+                        <p>Preparation is all about optimizing neurotransmitters and setting a firm behavioral anchor before your head hits the pillow.</p>
+                        <ul>
+                            <li><strong>Mindset Priming:</strong> Spend 5 minutes before bed looking at an architectural reference image or a sketch of your intended dream "spawn point." This primes your visual cortex.</li>
+                            <li><strong>The 4.5-Hour Precision Setup:</strong> Set a subtle, auto-dismissing or easily reached alarm for exactly 4.5 hours after you intend to fall asleep. This targets the late-night REM periods when your dream vividness and recall potential are at their highest.</li>
+                            <li><strong>Tactile Intention Setting:</strong> Rest your hand on your mattress for 60 seconds before sleeping. Tap your index and middle fingers slightly, reinforcing the exact physical space you will occupy when you wake up.</li>
+                        </ul>
+                    </div>
+
+                    <div class="curriculum-module">
+                        <h2>2. How to Sleep (The Balance)</h2>
+                        <p>The core mechanic of the FILD-to-WILD transition relies on hitting a highly specific state of drowsiness upon waking up from your initial alarm.</p>
+                        <ul>
+                            <li><strong>The Minimal Wakefulness Goal:</strong> When the alarm triggers, move as little as possible. Keep your eyes closed or half-lidded. Do not turn on lights, do not look at your phone screen, and do not let your brain kick-start its analytical processing.</li>
+                            <li><strong>Position Optimization:</strong> Return immediately to your most comfortable sleeping position, but one that allows a single hand to rest flat on the mattress surface. </li>
+                            <li><strong>The 90/10 Focus Split:</strong> Let 90% of your awareness drop directly back toward deep sleep. Keep only a tiny 10% thread of intent targeted on your fingers. You are not trying to "stay awake"; you are trying to catch a ride on the sleep wave as it rolls over you.</li>
+                        </ul>
+                    </div>
+
+                    <div class="curriculum-module">
+                        <h2>3. How to Enter the Dream</h2>
+                        <p>This is where the physical micro-movements bridge the conscious gap directly into a generated environment.</p>
+                        <ul>
+                            <li><strong>The Ghost Tapping Sequence:</strong> Begin alternating your index and middle fingers in an extraordinarily light rhythm. Reduce the physical pressure until the muscles are completely quiet and you are only *intending* to move them.</li>
+                            <li><strong>Monitoring the "Vibe Shift":</strong> Between 15 to 40 seconds of tapping, you will feel a shift in spatial awareness. It can present as a sudden weightless drop, a rush of internal audio static, or structural shapes forming behind your eyelids.</li>
+                            <li><strong>The Reality Verification:</strong> Once the shift passes, execute a nose-pinch reality check. Block your nose with your fingers and breathe. If you can breathe seamlessly, your physical body is asleep in bed, and you have successfully transitioned into your dream body.</li>
+                        </ul>
+                    </div>
+
+                    <div class="curriculum-module">
+                        <h2>4. How to Stay in the Dream (Stabilization)</h2>
+                        <p>A newly formed conscious dream environment is highly volatile and will quickly collapse if your working memory wanders.</p>
+                        <ul>
+                            <li><strong>The Immediate Grounding Fix:</strong> The moment you realize you are dreaming, do not run around or attempt complex control maneuvers. Drop down and touch the nearest solid surface—a wall, floor tile, or dirt. Send tactile input to your mind to firmly anchor the environment.</li>
+                            <li><strong>Sensory Engagement:</strong> Rub your hands together vigorously or call out commands loudly ("Increase clarity!"). This keeps your dream senses overwhelmed with local data, preventing your brain from redirecting awareness back to your physical bed.</li>
+                            <li><strong>Handling the Fade:</strong> If the world begins to turn gray or pixelate, spin your dream body in circles or fall backward intentionally. The rapid, changing kinesthetic sensation forces your brain to recalibrate the visual field, restabilizing the simulation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div id="tools" class="tab-content">
                 <div class="card" style="text-align: center;">
                     <h2>FILD Ghost Movement Calibrator</h2>
@@ -313,7 +358,6 @@
 
         const pinInput = document.getElementById('pinInput');
         
-        // Listen for "Enter" key on the input
         pinInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 verifyPin();
@@ -327,11 +371,10 @@
             if (inputVal === CORRECT_PIN) {
                 document.getElementById('lockScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
-                // Trigger dashboard render once unlocked
                 renderDashboard();
             } else {
                 errorMsg.innerText = "Access Denied. Incorrect PIN.";
-                pinInput.value = ""; // clear input
+                pinInput.value = ""; 
                 pinInput.focus();
             }
         }
@@ -466,11 +509,9 @@
                         f1.classList.remove('active');
                     }
                     isFinger1 = !isFinger1;
-                }, 800); // 800ms rhythm
+                }, 800);
             }
         }
-        
-        // Init happens once the lock screen is passed
     </script>
 </body>
 </html>
