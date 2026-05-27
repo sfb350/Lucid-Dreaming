@@ -26,6 +26,68 @@
             line-height: 1.6;
         }
 
+        /* --- Lock Screen Styles --- */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .lock-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .lock-card h2 {
+            border-bottom: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .lock-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        #pinInput {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 2rem;
+            letter-spacing: 0.5rem;
+            text-align: center;
+            padding: 0.75rem;
+            width: 80%;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #pinInput:focus {
+            border-color: var(--primary);
+        }
+
+        #errorMsg {
+            color: var(--danger);
+            font-size: 0.9rem;
+            height: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+        /* -------------------------- */
+
         header {
             background-color: var(--bg-panel);
             padding: 2rem 1rem;
@@ -137,174 +199,150 @@
 </head>
 <body>
 
-    <!-- 5-Digit Password Lock -->
-    <div id="passwordScreen" style="
-        position: fixed;
-        inset: 0;
-        background: #09090b;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    ">
-        <div style="
-            background: #18181b;
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid #27272a;
-            text-align: center;
-            width: 300px;
-        ">
-            <h2 style="color: #8b5cf6; margin-top: 0;">Enter Password</h2>
-
-            <input
-                type="password"
-                id="passwordInput"
-                maxlength="5"
-                placeholder="5-digit code"
-                onkeypress="if(event.key==='Enter') checkPassword()"
-                style="
-                    width: 100%;
-                    padding: 0.75rem;
-                    margin-top: 1rem;
-                    background: #09090b;
-                    border: 1px solid #27272a;
-                    color: white;
-                    border-radius: 4px;
-                    text-align: center;
-                    font-size: 1.2rem;
-                    box-sizing: border-box;
-                "
-            >
-
-            <button onclick="checkPassword()" style="
-                width: 100%;
-                margin-top: 1rem;
-                padding: 0.75rem;
-                background: #8b5cf6;
-                border: none;
-                border-radius: 4px;
-                color: white;
-                font-weight: bold;
-                cursor: pointer;
-            ">
-                Unlock
-            </button>
+    <div id="lockScreen">
+        <div class="lock-card">
+            <h2>System Locked</h2>
+            <p>Somatic Protocol Access</p>
+            <input type="password" id="pinInput" maxlength="5" placeholder="•••••" autocomplete="off" />
+            <p id="errorMsg"></p>
+            <button class="btn" onclick="verifyPin()">Unlock</button>
         </div>
     </div>
 
-    <header>
-        <h1>Somatic Induction Protocol</h1>
-        <p>Advanced FILD to WILD Integration System</p>
-    </header>
+    <div id="mainApp" style="display: none;">
+        <header>
+            <h1>Somatic Induction Protocol</h1>
+            <p>Advanced FILD to WILD Integration System</p>
+        </header>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('dashboard')">Daily Tracker</button>
-        <button class="tab-btn" onclick="switchTab('curriculum')">The Curriculum</button>
-        <button class="tab-btn" onclick="switchTab('tools')">FILD Calibrator</button>
-    </div>
-
-    <div class="container">
-        
-        <div id="dashboard" class="tab-content active">
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem;">
-                    <h2 style="border: none; margin: 0; padding: 0;">Day <span id="uiDay">1</span> / 30</h2>
-                    <span style="color: var(--accent); font-weight: bold;" id="uiPhase">Phase 1: The Somatic Lock</span>
-                </div>
-                
-                <p id="dailyObjective" style="color: var(--text-muted); font-size: 1.1rem;"></p>
-                
-                <h3>Daily Directives</h3>
-                <div id="checklist"></div>
-
-                <div class="alert-box">
-                    <h4>⚠️ In-Dream Emergency Anchor</h4>
-                    <p id="inDreamText">Loading protocol...</p>
-                </div>
-
-                <button class="btn" onclick="advanceDay()">Execute Directives & Advance Day</button>
-            </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">Daily Tracker</button>
+            <button class="tab-btn" onclick="switchTab('curriculum')">The Curriculum</button>
+            <button class="tab-btn" onclick="switchTab('tools')">FILD Calibrator</button>
         </div>
 
-        <div id="curriculum" class="tab-content">
-            <div class="card">
-                <div class="curriculum-module">
-                    <h2 style="color: var(--text-main);">Phase 1: The Somatic Lock (Days 1–7)</h2>
-                    <p><strong>Objective:</strong> Master the exact physical-to-mental threshold pressure of the finger anchor.</p>
-                    <ul>
-                        <li><strong>The Ghost Movement Calibration:</strong> Alternate moving your index and middle fingers, but reduce the movement until your fingers do not physically move at all.</li>
-                        <li><strong>The WBTB Back-Cut:</strong> Set your alarm for exactly 4.5 hours after sleep onset. Disable it immediately upon waking.</li>
-                        <li><strong>The 30-Second Drill:</strong> Immediately begin the ghost movements. Count cycles up to 20, then perform the nose-pinch reality check.</li>
-                    </ul>
-                </div>
-                
-                <div class="curriculum-module">
-                    <h2 style="color: var(--text-main);">Phase 2: Threshold Management (Days 8–14)</h2>
-                    <p><strong>Objective:</strong> Navigate the "Vibe Shift"—the exact moment your brain transitions from physical to dream input.</p>
-                    <ul>
-                        <li><strong>Sensory Deprivation Priming:</strong> Lay flat on your back for 2 minutes without moving before starting your finger anchors.</li>
-                        <li><strong>Mapping the Shift:</strong> Look for transitional markers like auditory static, rushing wind, or physical vibrations.</li>
-                        <li><strong>Passive Observation:</strong> Do not panic or react to hypnagogia. Treat it like a background movie to prevent cortisol spikes.</li>
-                    </ul>
-                </div>
+        <div class="container">
+            
+            <div id="dashboard" class="tab-content active">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <h2 style="border: none; margin: 0; padding: 0;">Day <span id="uiDay">1</span> / 30</h2>
+                        <span style="color: var(--accent); font-weight: bold;" id="uiPhase">Phase 1: The Somatic Lock</span>
+                    </div>
+                    
+                    <p id="dailyObjective" style="color: var(--text-muted); font-size: 1.1rem;"></p>
+                    
+                    <h3>Daily Directives</h3>
+                    <div id="checklist"></div>
 
-                <div class="curriculum-module">
-                    <h2 style="color: var(--text-main);">Phase 3: Visual Phasing (Days 15–21)</h2>
-                    <p><strong>Objective:</strong> Graduate from physical movements to visual, mental phasing.</p>
-                    <ul>
-                        <li><strong>The Synesthesia Shift:</strong> Start ghost movements for 15s. Stop physically, then visualize the movement perfectly behind your eyelids.</li>
-                        <li><strong>Environment Siphoning:</strong> Once the phantom movement is autonomous, force your mind to expect a specific scene to form around your moving hands.</li>
-                    </ul>
-                </div>
+                    <div class="alert-box">
+                        <h4>⚠️ In-Dream Emergency Anchor</h4>
+                        <p id="inDreamText">Loading protocol...</p>
+                    </div>
 
-                <div class="curriculum-module">
-                    <h2 style="color: var(--text-main);">Phase 4: High-Fidelity Architecting (Days 22–30)</h2>
-                    <p><strong>Objective:</strong> Unbroken conscious awareness from waking into a pre-designed environment.</p>
-                    <ul>
-                        <li><strong>Pre-Rendering the Matrix:</strong> Sketch or deeply visualize a detailed "spawn point" before bed.</li>
-                        <li><strong>The Vector Projection:</strong> Skip finger movements. Project consciousness directly into your spawn point during WBTB.</li>
-                        <li><strong>The Continuous Thread:</strong> Maintain internal counting to prevent slipping into standard narrative dreaming.</li>
-                    </ul>
+                    <button class="btn" onclick="advanceDay()">Execute Directives & Advance Day</button>
                 </div>
             </div>
-        </div>
 
-        <div id="tools" class="tab-content">
-            <div class="card" style="text-align: center;">
-                <h2>FILD Ghost Movement Calibrator</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto;">
-                    Use this visual metronome during the day to train your brain's rhythm. Rest your hand on a flat surface. 
-                    Match the visual pulse, continually reducing your physical muscle output until you are only <em>intending</em> to move the fingers without actual kinetic motion.
-                </p>
-                
-                <div class="metronome-container">
-                    <div class="finger-indicator" id="finger1">INDEX</div>
-                    <div class="finger-indicator" id="finger2">MIDDLE</div>
+            <div id="curriculum" class="tab-content">
+                <div class="card">
+                    <div class="curriculum-module">
+                        <h2 style="color: var(--text-main);">Phase 1: The Somatic Lock (Days 1–7)</h2>
+                        <p><strong>Objective:</strong> Master the exact physical-to-mental threshold pressure of the finger anchor.</p>
+                        <ul>
+                            <li><strong>The Ghost Movement Calibration:</strong> Alternate moving your index and middle fingers, but reduce the movement until your fingers do not physically move at all.</li>
+                            <li><strong>The WBTB Back-Cut:</strong> Set your alarm for exactly 4.5 hours after sleep onset. Disable it immediately upon waking.</li>
+                            <li><strong>The 30-Second Drill:</strong> Immediately begin the ghost movements. Count cycles up to 20, then perform the nose-pinch reality check.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="curriculum-module">
+                        <h2 style="color: var(--text-main);">Phase 2: Threshold Management (Days 8–14)</h2>
+                        <p><strong>Objective:</strong> Navigate the "Vibe Shift"—the exact moment your brain transitions from physical to dream input.</p>
+                        <ul>
+                            <li><strong>Sensory Deprivation Priming:</strong> Lay flat on your back for 2 minutes without moving before starting your finger anchors.</li>
+                            <li><strong>Mapping the Shift:</strong> Look for transitional markers like auditory static, rushing wind, or physical vibrations.</li>
+                            <li><strong>Passive Observation:</strong> Do not panic or react to hypnagogia. Treat it like a background movie to prevent cortisol spikes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="curriculum-module">
+                        <h2 style="color: var(--text-main);">Phase 3: Visual Phasing (Days 15–21)</h2>
+                        <p><strong>Objective:</strong> Graduate from physical movements to visual, mental phasing.</p>
+                        <ul>
+                            <li><strong>The Synesthesia Shift:</strong> Start ghost movements for 15s. Stop physically, then visualize the movement perfectly behind your eyelids.</li>
+                            <li><strong>Environment Siphoning:</strong> Once the phantom movement is autonomous, force your mind to expect a specific scene to form around your moving hands.</li>
+                        </ul>
+                    </div>
+
+                    <div class="curriculum-module">
+                        <h2 style="color: var(--text-main);">Phase 4: High-Fidelity Architecting (Days 22–30)</h2>
+                        <p><strong>Objective:</strong> Unbroken conscious awareness from waking into a pre-designed environment.</p>
+                        <ul>
+                            <li><strong>Pre-Rendering the Matrix:</strong> Sketch or deeply visualize a detailed "spawn point" before bed.</li>
+                            <li><strong>The Vector Projection:</strong> Skip finger movements. Project consciousness directly into your spawn point during WBTB.</li>
+                            <li><strong>The Continuous Thread:</strong> Maintain internal counting to prevent slipping into standard narrative dreaming.</li>
+                        </ul>
+                    </div>
                 </div>
-
-                <button class="btn" id="metroBtn" onclick="toggleMetronome()" style="max-width: 200px;">Start Calibration</button>
             </div>
-        </div>
 
+            <div id="tools" class="tab-content">
+                <div class="card" style="text-align: center;">
+                    <h2>FILD Ghost Movement Calibrator</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto;">
+                        Use this visual metronome during the day to train your brain's rhythm. Rest your hand on a flat surface. 
+                        Match the visual pulse, continually reducing your physical muscle output until you are only <em>intending</em> to move the fingers without actual kinetic motion.
+                    </p>
+                    
+                    <div class="metronome-container">
+                        <div class="finger-indicator" id="finger1">INDEX</div>
+                        <div class="finger-indicator" id="finger2">MIDDLE</div>
+                    </div>
+
+                    <button class="btn" id="metroBtn" onclick="toggleMetronome()" style="max-width: 200px;">Start Calibration</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-    // App State
+        // --- Lock Screen Logic ---
+        const CORRECT_PIN = "67911"; // CHANGE YOUR 5-DIGIT PASSWORD HERE
 
-    function checkPassword() {
-        const password = document.getElementById("passwordInput").value;
+        const pinInput = document.getElementById('pinInput');
+        
+        // Listen for "Enter" key on the input
+        pinInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyPin();
+            }
+        });
 
-        if (password === "67911") {
-            document.getElementById("passwordScreen").style.display = "none";
-        } else {
-            alert("Incorrect password");
+        function verifyPin() {
+            const inputVal = pinInput.value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (inputVal === CORRECT_PIN) {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                // Trigger dashboard render once unlocked
+                renderDashboard();
+            } else {
+                errorMsg.innerText = "Access Denied. Incorrect PIN.";
+                pinInput.value = ""; // clear input
+                pinInput.focus();
+            }
         }
-    }
+        // -------------------------
 
-    let currentDay = parseInt(localStorage.getItem('fild_day')) || 1;
-    let metronomeInterval = null;
-    let isFinger1 = true;
+
+        // App State
+        let currentDay = parseInt(localStorage.getItem('fild_day')) || 1;
+        let metronomeInterval = null;
+        let isFinger1 = true;
+
         const phases = [
             {
                 max: 7, title: "Phase 1: The Somatic Lock",
@@ -431,9 +469,8 @@
                 }, 800); // 800ms rhythm
             }
         }
-
-        // Init
-        renderDashboard();
+        
+        // Init happens once the lock screen is passed
     </script>
 </body>
 </html>
