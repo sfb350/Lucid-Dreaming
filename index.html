@@ -101,6 +101,7 @@
         .tabs {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             background-color: var(--bg-panel);
             border-bottom: 1px solid var(--border);
         }
@@ -109,7 +110,7 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -163,7 +164,7 @@
         }
         .btn:hover { background: var(--primary-hover); }
 
-        /* FILD Metronome */
+        /* --- FILD Metronome --- */
         .metronome-container {
             display: flex;
             justify-content: center;
@@ -189,6 +190,34 @@
             transform: scale(1.1);
             box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
         }
+
+        /* --- Progression System --- */
+        .level-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+        .level-card.achieved {
+            border-color: var(--accent);
+            background: rgba(20, 184, 166, 0.05);
+        }
+        .level-checkbox {
+            margin-top: 0.25rem;
+            margin-right: 1.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+        .level-info h3 { margin-top: 0; margin-bottom: 0.5rem; color: var(--text-main); transition: color 0.3s ease;}
+        .level-card.achieved .level-info h3 { color: var(--accent); }
+        .level-info p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
 
         .curriculum-module { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
         .curriculum-module:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -219,6 +248,7 @@
             <button class="tab-btn active" onclick="switchTab('dashboard')">Daily Tracker</button>
             <button class="tab-btn" onclick="switchTab('curriculum')">The Curriculum</button>
             <button class="tab-btn" onclick="switchTab('guidebook')">Protocol Guide</button>
+            <button class="tab-btn" onclick="switchTab('progression')">Progression</button>
             <button class="tab-btn" onclick="switchTab('tools')">FILD Calibrator</button>
         </div>
 
@@ -332,6 +362,16 @@
                 </div>
             </div>
 
+            <div id="progression" class="tab-content">
+                <div class="card">
+                    <h2>Lucidity Scale & Achievements</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Mark your milestones as you master the induction pipeline. Progress is stored locally.</p>
+                    
+                    <div id="lucidityList">
+                        </div>
+                </div>
+            </div>
+
             <div id="tools" class="tab-content">
                 <div class="card" style="text-align: center;">
                     <h2>FILD Ghost Movement Calibrator</h2>
@@ -354,7 +394,7 @@
 
     <script>
         // --- Lock Screen Logic ---
-        const CORRECT_PIN = "67911"; // CHANGE YOUR 5-DIGIT PASSWORD HERE
+        const CORRECT_PIN = "12345"; // CHANGE YOUR 5-DIGIT PASSWORD HERE
 
         const pinInput = document.getElementById('pinInput');
         
@@ -372,6 +412,7 @@
                 document.getElementById('lockScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 renderDashboard();
+                renderProgression();
             } else {
                 errorMsg.innerText = "Access Denied. Incorrect PIN.";
                 pinInput.value = ""; 
@@ -385,6 +426,15 @@
         let currentDay = parseInt(localStorage.getItem('fild_day')) || 1;
         let metronomeInterval = null;
         let isFinger1 = true;
+
+        // Progression State
+        const lucidityLevels = [
+            { id: "lvl1", title: "Level 1: Hypnagogic Awareness", desc: "Successfully retaining consciousness while physical sensations fade. Experiencing auditory or visual static without reacting." },
+            { id: "lvl2", title: "Level 2: Micro-Lucidity", desc: "Realizing you are dreaming, but waking up or losing the dream narrative almost immediately due to excitement or instability." },
+            { id: "lvl3", title: "Level 3: Stabilized Entry", desc: "Successfully entering the dream, executing a reality check, and grounding the simulation by touching your immediate environment." },
+            { id: "lvl4", title: "Level 4: Somatic Control", desc: "Maintaining awareness for an extended period. Exercising full control over your dream body (flying, phasing, enhanced speed)." },
+            { id: "lvl5", title: "Level 5: The Architect", desc: "Complete mastery over the simulation. Spawning objects, altering the landscape, summoning entities, and actively designing the dream." }
+        ];
 
         const phases = [
             {
@@ -474,6 +524,44 @@
             renderDashboard();
             window.scrollTo(0,0);
         }
+
+        // --- Progression Logic ---
+        function renderProgression() {
+            const container = document.getElementById('lucidityList');
+            container.innerHTML = "";
+
+            lucidityLevels.forEach(level => {
+                const isAchieved = localStorage.getItem(`fild_achieved_${level.id}`) === 'true';
+                
+                const levelHtml = `
+                    <div class="level-card ${isAchieved ? 'achieved' : ''}" id="card_${level.id}">
+                        <input type="checkbox" class="level-checkbox" id="cb_${level.id}" 
+                               onchange="toggleLevel('${level.id}')" ${isAchieved ? 'checked' : ''}>
+                        <div class="level-info">
+                            <label for="cb_${level.id}" style="cursor: pointer; display: block;">
+                                <h3>${level.title}</h3>
+                                <p>${level.desc}</p>
+                            </label>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += levelHtml;
+            });
+        }
+
+        function toggleLevel(levelId) {
+            const cb = document.getElementById(`cb_${levelId}`);
+            const card = document.getElementById(`card_${levelId}`);
+            
+            if (cb.checked) {
+                localStorage.setItem(`fild_achieved_${levelId}`, 'true');
+                card.classList.add('achieved');
+            } else {
+                localStorage.setItem(`fild_achieved_${levelId}`, 'false');
+                card.classList.remove('achieved');
+            }
+        }
+        // -------------------------
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
